@@ -1,25 +1,15 @@
-# --- Part Two ---
+# --- Day 2: Inventory Management System ---
 
-frequency = 0
-frequencies_seen = Hash.new(0)
-frequency_seen_twice = false
+seen_exactly_twice_count = 0
+seen_exactly_thrice_count = 0
 
-until frequency_seen_twice
-  File.foreach('day1_input.txt') do |line|
-    # the operator + or - is the first character:
-    operator = line[0]
-    # the calibration is the rest of it, converted to an integer
-    calibration = line[1, line.length].to_i
-    # just send (metaprogramming) it to perform the operation:
-    frequency = frequency.send(operator, calibration)
-    # store it:
-    frequencies_seen[frequency] += 1
-    # if we've seen a frequency twice, store it and break from loop
-    if frequencies_seen[frequency] == 2
-      frequency_seen_twice = frequency
-      break
-    end
+File.foreach('day2_input.txt') do |line|
+  letter_frequencies = Hash.new(0)
+  line.chars.each do |c|
+    letter_frequencies[c] += 1
   end
+  seen_exactly_twice_count += 1 if letter_frequencies.values.include?(2)
+  seen_exactly_thrice_count += 1 if letter_frequencies.values.include?(3)
 end
 
-puts frequency_seen_twice # 81204
+puts seen_exactly_twice_count * seen_exactly_thrice_count # 6944
